@@ -6,7 +6,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const API_KEY = process.env.API_KEY || fa98cab2aaa84b4ab5a161835250703;
+const API_KEY = process.env.API_KEY ;
 
 app.use(cors());
 app.use(express.static("public")); // Servir archivos estáticos
