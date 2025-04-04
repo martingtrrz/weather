@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima con WeatherAPI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Consulta el Clima</h1>
+        <form method="GET" action="/clima">
+            <input type="text" name="ciudad" placeholder="Ingresa una ciudad" required>
+            <button type="submit">Buscar</button>
+        </form>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evita que la página recargue
+
+            const ciudad = document.querySelector("input[name='ciudad']").value;
+            const respuesta = await fetch(`/clima?ciudad=${ciudad}`);
+            const datos = await respuesta.json();
+
+            if (datos.error) {
+                document.getElementById("resultado").innerHTML = "<p>No se encontró la ciudad.</p>";
+            } else {
+                document.getElementById("resultado").innerHTML = `
+                    <h2>Clima en ${datos.location.name}, ${datos.location.country}</h2>
+                    <p>Temperatura: ${datos.current.temp_c}°C</p>
+                    <p>Condición: ${datos.current.condition.text}</p>
+                    <img src="https:${datos.current.condition.icon}" alt="Icono del clima">
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
